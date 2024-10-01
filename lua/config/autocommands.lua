@@ -18,6 +18,7 @@ vim.api.nvim_create_autocmd("FileType", {
     "man",
     "notify",
     "fugitive*",
+    "gitsigns*",
     "qf",
     "query",
     "spectre_panel",

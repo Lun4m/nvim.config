@@ -12,28 +12,19 @@ return {
       untracked = { text = "▌" },
     },
     on_attach = function(bufnr)
-      vim.keymap.set("n", "<leader>gp", require("gitsigns").preview_hunk, { buffer = bufnr, desc = "Preview git hunk" })
+      local gitsigns = require("gitsigns")
 
-      -- don't override the built-in and fugitive keymaps
-      local gs = package.loaded.gitsigns
-      vim.keymap.set("n", "<leader>gj", function()
-        if vim.wo.diff then
-          return "<leader>gj"
-        end
-        vim.schedule(function()
-          gs.next_hunk()
-        end)
-        return "<Ignore>"
-      end, { expr = true, buffer = bufnr, desc = "Jump to next hunk" })
-      vim.keymap.set("n", "<leader>gk", function()
-        if vim.wo.diff then
-          return "<leader>gk"
-        end
-        vim.schedule(function()
-          gs.prev_hunk()
-        end)
-        return "<Ignore>"
-      end, { expr = true, buffer = bufnr, desc = "Jump to previous hunk" })
+      local function map(mode, l, r, opts)
+        opts = opts or {}
+        opts.buffer = bufnr
+        vim.keymap.set(mode, l, r, opts)
+      end
+
+      map("n", "<leader>gj", gitsigns.next_hunk, { desc = "Jump to next hunk" })
+      map("n", "<leader>gk", gitsigns.prev_hunk, { desc = "Jump to previous hunk" })
+      map("n", "<leader>gp", gitsigns.preview_hunk, { desc = "Preview git hunk" })
+      map("n", "<leader>gb", gitsigns.blame_line, { desc = "Toggle blame on current line" })
+      map("n", "<leader>gf", gitsigns.blame, { desc = "Blame whole file" })
     end,
   },
 }
