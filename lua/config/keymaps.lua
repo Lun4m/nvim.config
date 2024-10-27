@@ -8,6 +8,13 @@ vim.keymap.set("n", "<C-j>", "<C-w>j", { desc = "Go to lower window", remap = tr
 vim.keymap.set("n", "<C-k>", "<C-w>k", { desc = "Go to upper window", remap = true })
 vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = "Go to right window", remap = true })
 
+-- Remap digraph kyebinding
+vim.keymap.set("i", "<C-f>", "<C-k>")
+
+-- Add semicolon eol
+-- TODO: figure out why <C-;> doesn't work
+vim.keymap.set("n", "<leader>;", "A;<esc>", { silent = true, desc = "Add semicolon at the end of the line" })
+
 -- Move in insert and command mode
 vim.keymap.set({ "i", "c" }, "<C-h>", "<Left>", { remap = true })
 vim.keymap.set({ "i", "c" }, "<C-j>", "<Down>", { remap = true })
