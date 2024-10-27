@@ -8,6 +8,7 @@ return {
           config = {
             cpp = "// %s",
             h = "// %s",
+            wgsl = "// %s",
           },
         },
       },

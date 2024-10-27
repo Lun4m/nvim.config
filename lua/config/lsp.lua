@@ -237,6 +237,9 @@ require("crates").setup({
   },
 })
 
+-- WGSL
+require("lspconfig").glasgow.setup({})
+
 -- Given the linter and formatter list, extract a list of all tools that need to be installed
 local function mason_autoinstall(linters, formatters, debuggers, ignore)
   local linter_list = vim.iter(vim.tbl_values(linters)):flatten():totable()
