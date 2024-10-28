@@ -107,8 +107,8 @@ return {
     dependencies = { "nvim-lua/plenary.nvim" },
     opts = {
       highlight = {
-        keyword = "fg",
-        pattern = [[(KEYWORDS)\s*(\([^\)]*\))?:]],
+        keyword = "wide_fg",
+        pattern = [[.*<((KEYWORDS)\s*(\([^\)]*\))?):]],
       },
     },
   },
