@@ -63,6 +63,7 @@ end
 require("mason").setup({ ui = { border = "rounded" } })
 require("mason-lspconfig").setup()
 
+-- TODO: move to autocommands.lua
 -- set file type for docker docker_compose_language_service
 local function set_filetype(pattern, filetype)
   vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
@@ -112,21 +113,21 @@ local servers = {
   docker_compose_language_service = {},
   dockerls = {},
   gopls = {},
-  yamlls = {
-    yaml = {
-      schemas = {
-        ["https://json.schemastore.org/github-workflow.json"] = ".github/workflows/*",
-        -- ["http://json.schemastore.org/ansible-stable-2.9"] = "roles/tasks/*.{yml,yaml}",
-        -- ["https://raw.githubusercontent.com/ansible/ansible-lint/main/src/ansiblelint/schemas/ansible-lint-config.json"] = "ansible/*",
-        -- ["https://json.schemastore.org/ansible-stable-2.9"] = "ansible/*",
-        ["https://json.schemastore.org/kustomization"] = "kustomization.{yml,yaml}",
-        -- ["https://json.schemastore.org/ansible-playbook"] = "*play*.{yml,yaml}",
-        ["https://json.schemastore.org/gitlab-ci"] = "*gitlab-ci*.{yml,yaml}",
-        kubernetes = "*.yaml",
-      },
-    },
-    filetypes = { "yaml", "yaml.gitlab" },
-  },
+  -- yamlls = {
+  --   yaml = {
+  --     schemas = {
+  --       ["https://json.schemastore.org/github-workflow.json"] = ".github/workflows/*",
+  --       -- ["http://json.schemastore.org/ansible-stable-2.9"] = "roles/tasks/*.{yml,yaml}",
+  --       -- ["https://raw.githubusercontent.com/ansible/ansible-lint/main/src/ansiblelint/schemas/ansible-lint-config.json"] = "ansible/*",
+  --       -- ["https://json.schemastore.org/ansible-stable-2.9"] = "ansible/*",
+  --       ["https://json.schemastore.org/kustomization"] = "kustomization.{yml,yaml}",
+  --       -- ["https://json.schemastore.org/ansible-playbook"] = "*play*.{yml,yaml}",
+  --       ["https://json.schemastore.org/gitlab-ci"] = "*gitlab-ci*.{yml,yaml}",
+  --       -- kubernetes = "*.yaml",
+  --     },
+  --   },
+  --   filetypes = { "yaml", "yaml.gitlab" },
+  -- },
   marksman = {},
   basedpyright = {
     basedpyright = {
@@ -265,7 +266,7 @@ local formatters = {
   lua = { "stylua" },
   python = { "isort", "black" },
   sh = { "shfmt", "shellcheck" },
-  yaml = { "prettier" },
+  yaml = { "yamlfmt" },
   -- sql = { "sqlfmt" },
   -- typescript = { "biome" },
   -- json = { "biome" },
@@ -280,7 +281,7 @@ local formatters = {
   -- ["*"] = { "codespell" },
 }
 
-local linters = { ansible = { "ansible-lint" } }
+local linters = { ansible = { "ansible-lint" }, systemd = { "systemdlint" } }
 local debuggers = {}
 local dont_install = {}
 -- not real formatters, but pseudo-formatters from conform.nvim
