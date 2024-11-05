@@ -9,7 +9,7 @@ return {
             cpp = "// %s",
             h = "// %s",
             wgsl = "// %s",
-            just = "# %",
+            just = "# %s",
           },
         },
       },
