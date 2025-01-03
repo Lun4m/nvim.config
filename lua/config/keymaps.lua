@@ -123,7 +123,16 @@ vim.keymap.set("n", "<leader>so", require("telescope.builtin").oldfiles, { desc 
 
 -- lazygit window
 local Terminal = require("toggleterm.terminal").Terminal
-local lazygit = Terminal:new({ cmd = "lazygit", direction = "float", hidden = true })
+local lazygit = Terminal:new({
+  cmd = "lazygit",
+  direction = "float",
+  hidden = true,
+  on_open = function(_)
+    vim.keymap.del("t", "<C-h>", { buffer = 0 })
+    vim.keymap.del("t", "<C-k>", { buffer = 0 })
+    vim.keymap.del("t", "<C-l>", { buffer = 0 })
+  end,
+})
 
 function _Lazygit_toggle()
   lazygit:toggle()
@@ -145,4 +154,9 @@ function _G.set_terminal_keymaps()
 end
 
 -- if you only want these mappings for toggle term use term://*toggleterm#* instead
-vim.cmd("autocmd! TermOpen term://* lua set_terminal_keymaps()")
+-- vim.cmd("autocmd! TermOpen term://* lua set_terminal_keymaps()")
+
+vim.api.nvim_create_autocmd({ "TermOpen" }, {
+  pattern = "term://*",
+  callback = set_terminal_keymaps,
+})
