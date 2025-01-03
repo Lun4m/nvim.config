@@ -129,6 +129,7 @@ local servers = {
   --   filetypes = { "yaml", "yaml.gitlab" },
   -- },
   marksman = {},
+  ruff = {},
   basedpyright = {
     basedpyright = {
       analysis = {
@@ -264,7 +265,7 @@ local formatters = {
   html = { "prettier" },
   javascript = { "prettier" },
   lua = { "stylua" },
-  python = { "isort", "black" },
+  python = { "ruff", "ruff_organize_imports", "ruff_format" },
   sh = { "shfmt", "shellcheck" },
   yaml = { "yamlfmt" },
   -- sql = { "sqlfmt" },
