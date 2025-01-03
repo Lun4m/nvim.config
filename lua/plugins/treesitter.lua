@@ -32,7 +32,7 @@ return {
           "tsx",
           "typescript",
           "vim",
-          -- "vimdoc",
+          "vimdoc",
         },
         auto_install = false,
         highlight = { enable = true, disable = { "dotenv" } },
