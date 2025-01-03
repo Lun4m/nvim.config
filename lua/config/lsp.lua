@@ -95,9 +95,7 @@ local servers = {
       "--pch-storage=memory", -- could also be disk
       "--suggest-missing-includes",
       "-j=4", -- number of workers
-      -- "--resource-dir="
       "--log=error",
-      --[[ "--query-driver=/usr/bin/g++", ]]
     },
     filetypes = { "c", "cpp", "objc", "objcpp", "h" },
     single_file_support = true,
@@ -204,6 +202,7 @@ vim.g.rustaceanvim = {
       on_attach(_, bufnr)
       rust_on_attach(_, bufnr)
     end,
+    capabilities = vim.lsp.protocol.make_client_capabilities(),
     default_settings = {
       ["rust-analyzer"] = {
         cargo = {
@@ -274,8 +273,6 @@ local formatters = {
   -- jsonc = { "biome" },
   markdown = {
     "mdformat",
-    -- "markdown-toc",
-    -- "markdownlint",
   },
   -- bib = { "trim_whitespace", "bibtex-tidy" },
   -- ["_"] = { "trim_whitespace", "trim_newlines", "squeeze_blanks" },
@@ -296,6 +293,39 @@ local dont_install = {}
 require("mason-null-ls").setup({
   ensure_installed = mason_autoinstall(linters, formatters, debuggers, dont_install),
   automatic_installation = false,
+  handlers = {
+    mdformat = function(name, methods)
+      local installed = require("mason-null-ls").get_installed_sources()
+      if vim.tbl_contains(installed, name) then
+        return
+      end
+
+      require("mason-null-ls").default_setup(name, methods)
+
+      local mdformat = require("mason-registry").get_package("mdformat")
+      local plugins = {
+        "mdformat-gfm",
+        "mdformat-toc",
+        "mdformat-tables",
+        "mdformat-myst",
+      }
+
+      vim.notify("Installing mdformat extensions...")
+      local python = mdformat:get_install_path() .. "/venv/bin/python"
+
+      vim.system(
+        { python, "-m", "pip", "install", unpack(plugins) },
+        {},
+        vim.schedule_wrap(function(res)
+          if res.code == 0 then
+            vim.notify("mdformat extensions were successfully installed.")
+          else
+            vim.notify("Could not install mdformat extensions: " .. res.stderr, vim.log.levels.ERROR)
+          end
+        end)
+      )
+    end,
+  },
 })
 
 vim.g.format_is_enabled = true
