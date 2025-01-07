@@ -1,5 +1,10 @@
 return {
   {
+    "NStefan002/screenkey.nvim",
+    lazy = false,
+    version = "*", -- or branch = "dev", to use the latest commit
+  },
+  {
     "folke/flash.nvim",
     event = "VeryLazy",
     opts = {
@@ -42,17 +47,6 @@ return {
     ft = { "markdown" },
     build = function()
       vim.fn["mkdp#util#install"]()
-    end,
-  },
-  {
-    "ray-x/lsp_signature.nvim",
-    event = "VeryLazy",
-    opts = {
-      floating_window = false,
-      hint_prefix = " ",
-    },
-    config = function(_, opts)
-      require("lsp_signature").setup(opts)
     end,
   },
   {
