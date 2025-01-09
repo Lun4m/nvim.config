@@ -50,5 +50,6 @@ require("lazy").setup({
 })
 
 require("config.lsp")
+require("config.format_lint_debug")
 require("config.keymaps")
 require("config.autocommands")
