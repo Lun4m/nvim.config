@@ -33,6 +33,7 @@ return {
           "typescript",
           "vim",
           "vimdoc",
+          "wgsl",
         },
         auto_install = false,
         highlight = { enable = true, disable = { "dotenv" } },

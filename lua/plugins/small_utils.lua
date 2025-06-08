@@ -2,14 +2,38 @@ return {
   {
     "folke/flash.nvim",
     event = "VeryLazy",
-    opts = {},
+    opts = {
+      jump = {
+        autojump = true,
+      },
+      label = {
+        uppercase = false,
+      },
+    },
     -- stylua: ignore
     keys = {
       { "s", mode = { "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
       { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
       { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
-      -- Somehow "_" maps to "/"?
-      { "<c-_>", mode = { "n" }, function() require("flash").jump() end, desc = "Flash search" },
+      { "<c-/>", mode = { "n" }, function() require("flash").jump() end, desc = "Flash search" },
+    },
+  },
+  {
+    {
+      "3rd/image.nvim",
+      opts = {},
+    },
+  },
+  -- {
+  --   rocks = {
+  --     hererocks = true, -- recommended if you do not have global installation of Lua 5.1.
+  --   },
+  -- },
+  {
+    "MeanderingProgrammer/render-markdown.nvim",
+    dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
+    opts = {
+      completions = { lsp = { enabled = true } },
     },
   },
   {

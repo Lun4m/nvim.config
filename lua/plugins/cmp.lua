@@ -71,6 +71,7 @@ return {
         { name = "buffer" },
         { name = "nvim_lsp" },
         { name = "luasnip" },
+        { name = "render-markdown" },
       },
       formatting = {
         fields = { "abbr", "menu", "kind" },

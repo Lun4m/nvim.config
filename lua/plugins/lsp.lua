@@ -1,7 +1,6 @@
 return {
   {
     "mrcjkb/rustaceanvim",
-    version = "^4",
     ft = { "rust" },
   },
   {
@@ -27,6 +26,9 @@ return {
   {
     "stevearc/conform.nvim",
     opts = {},
+  },
+  {
+    "mfussenegger/nvim-lint",
   },
   -- {
   -- "b0o/schemastore.nvim",
