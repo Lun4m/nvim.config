@@ -201,6 +201,9 @@ vim.lsp.config("ruff", {
   init_options = {
     settings = {
       configuration = vim.fn.expand("$HOME") .. ".config/ruff/ruff.toml",
+      lint = {
+        ignore = { "F722" },
+      },
     },
   },
 })
