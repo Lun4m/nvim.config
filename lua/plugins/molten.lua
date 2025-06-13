@@ -23,10 +23,10 @@ return {
       },
       {
         "<leader>jp",
-        "<cmd>MoltenInit python3<cr>",
+        "<cmd>MoltenInit<cr>",
         silent = true,
         noremap = true,
-        desc = "Start Python 3 kernel",
+        desc = "Start Python kernel",
       },
     },
     -- { "<leader>x", "<cmd>lua require('notebook-navigator').run_and_move()<cr>" },

@@ -17,10 +17,10 @@ return {
     },
     -- stylua: ignore
     keys = {
-      { "s", mode = { "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
-      { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
-      { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
-      { "<c-/>", mode = { "n" }, function() require("flash").jump() end, desc = "Flash search" },
+      { "s",     mode = { "x", "o" }, function() require("flash").jump() end,              desc = "Flash" },
+      { "r",     mode = "o",          function() require("flash").remote() end,            desc = "Remote Flash" },
+      { "R",     mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+      { "<c-/>", mode = { "n" },      function() require("flash").jump() end,              desc = "Flash search" },
     },
   },
   {
@@ -137,9 +137,9 @@ return {
       auto_preview = false,
     },
     keys = {
-      { "<leader>tq", "<cmd>TodoQuickFix<cr>", desc = "Open quickfix list with all the TODOs" },
+      { "<leader>tq", "<cmd>TodoQuickFix<cr>",        desc = "Open quickfix list with all the TODOs" },
       { "<leader>td", "<cmd>Trouble diagnostics<cr>", desc = "Toggle Trouble for the current file" },
-      { "<leader>tt", "<cmd>Trouble todo<cr>", desc = "Toggle TODOs for the current file" },
+      { "<leader>tt", "<cmd>Trouble todo<cr>",        desc = "Toggle TODOs for the current file" },
     },
   },
   {

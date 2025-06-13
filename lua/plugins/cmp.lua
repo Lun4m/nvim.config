@@ -74,8 +74,7 @@ return {
       },
 
       sources = {
-        default = { "lsp", "path", "luasnip", "buffer" },
-        cmdline = {},
+        default = { "lsp", "path", "snippets", "buffer" },
       },
     },
   },
