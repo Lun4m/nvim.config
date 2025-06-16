@@ -16,6 +16,7 @@ vim.api.nvim_create_autocmd("FileType", {
     "help",
     "lspinfo",
     "man",
+    "molten_output",
     "notify",
     "fugitive*",
     "gitsigns*",
