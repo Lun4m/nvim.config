@@ -1,128 +1,89 @@
 return {
-  "hrsh7th/nvim-cmp",
-  dependencies = {
-    "L3MON4D3/LuaSnip",
-    "saadparwaiz1/cmp_luasnip",
-    "hrsh7th/cmp-nvim-lsp",
-    "hrsh7th/cmp-buffer",
-    -- TODO: maybe move to async path
-    "hrsh7th/cmp-path",
-    "rafamadriz/friendly-snippets",
-  },
-  config = function()
-    local cmp = require("cmp")
-    local luasnip = require("luasnip")
-    local bordered = require("cmp.config.window").bordered
-    require("luasnip.loaders.from_vscode").lazy_load()
-    luasnip.config.setup({})
+  {
+    "saghen/blink.cmp",
+    lazy = false,
+    dependencies = {
+      "L3MON4D3/LuaSnip",
+      "rafamadriz/friendly-snippets",
+    },
+    -- use a release tag to download pre-built binaries
+    -- version = false,
+    -- Builiding requires rust nightly
+    build = "cargo build --release",
+    opts = {
+      keymap = {
+        ["<C-e>"] = { "hide", "fallback" },
+        -- TODO: this does not work well when
+        -- you want to only insert a new line
+        -- without selection an entry from the
+        -- completion menu
+        ["<CR>"] = { "select_and_accept", "fallback" },
 
-    cmp.setup({
-      snippet = {
-        expand = function(args)
-          luasnip.lsp_expand(args.body)
+        ["<Tab>"] = { "select_next", "fallback" },
+        ["<S-Tab>"] = { "select_prev", "fallback" },
+
+        ["<C-j>"] = { "snippet_forward", "fallback" },
+        ["<C-k>"] = { "snippet_backward", "fallback" },
+
+        ["<C-b>"] = { "scroll_documentation_up", "fallback" },
+        ["<C-d>"] = { "scroll_documentation_down", "fallback" },
+      },
+
+      -- appearence = {
+      -- sets the fallback highlight groups to nvim-cmp's highlight groups
+      -- useful for when your theme doesn't support blink.cmp
+      -- will be removed in a future release, assuming themes add support
+      -- use_nvim_cmp_as_default = true,
+      -- set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
+      -- adjusts spacing to ensure icons are aligned
+      -- nerd_font_variant = "mono",
+      -- },
+
+      completion = {
+        list = {
+          selection = { preselect = false, auto_insert = true },
+        },
+        documentation = {
+          auto_show = true,
+          auto_show_delay_ms = 50,
+        },
+        -- ghost_text = { enabled = true },
+
+        -- experimental auto-brackets support
+        accept = {
+          auto_brackets = { enabled = true },
+        },
+      },
+
+      -- experimental signature help support
+      signature = { enabled = true },
+
+      snippets = {
+        expand = function(snippet)
+          require("luasnip").lsp_expand(snippet)
+        end,
+        active = function(filter)
+          if filter and filter.direction then
+            return require("luasnip").jumpable(filter.direction)
+          end
+          return require("luasnip").in_snippet()
+        end,
+        jump = function(direction)
+          require("luasnip").jump(direction)
         end,
       },
-      mapping = cmp.mapping.preset.insert({
-        ["<C-n>"] = cmp.mapping.select_next_item(),
-        ["<C-p>"] = cmp.mapping.select_prev_item(),
-        ["<C-d>"] = cmp.mapping.scroll_docs(-4),
-        ["<C-f>"] = cmp.mapping.scroll_docs(4),
-        ["<C-Space>"] = cmp.mapping.complete({}),
-        ["<CR>"] = cmp.mapping.confirm({
-          behavior = cmp.ConfirmBehavior.Insert,
-          select = true,
-        }),
-        ["<C-CR>"] = function(fallback)
-          cmp.abort()
-          fallback()
-        end,
-        ["<C-j>"] = cmp.mapping(function(fallback)
-          if luasnip.expand_or_locally_jumpable() then
-            luasnip.expand_or_jump()
-          else
-            fallback()
-          end
-        end, { "i", "s" }),
-        ["<C-k>"] = cmp.mapping(function(fallback)
-          if luasnip.jumpable(-1) then
-            luasnip.jump(-1)
-          else
-            fallback()
-          end
-        end, { "i", "s" }),
-        ["<Tab>"] = cmp.mapping(function(fallback)
-          if cmp.visible() then
-            cmp.select_next_item()
-          else
-            fallback()
-          end
-        end, { "i", "s" }),
-        ["<S-Tab>"] = cmp.mapping(function(fallback)
-          if cmp.visible() then
-            cmp.select_prev_item()
-          else
-            fallback()
-          end
-        end, { "i", "s" }),
-      }),
-      preselect = cmp.PreselectMode.None,
+
       sources = {
-        { name = "path" },
-        { name = "buffer" },
-        { name = "nvim_lsp" },
-        { name = "luasnip" },
-        { name = "render-markdown" },
-      },
-      formatting = {
-        fields = { "abbr", "menu", "kind" },
-        expandable_indicator = true,
-        format = function(entry, item)
-          -- Define menu shorthand for different completion sources.
-          local menu_icon = {
-            nvim_lsp = "NLSP",
-            nvim_lua = "NLUA",
-            luasnip = "LSNP",
-            buffer = "BUFF",
-            path = "PATH",
+        default = { "lazydev", "lsp", "path", "snippets", "buffer" },
+        providers = {
+          lazydev = {
+            name = "LazyDev",
+            module = "lazydev.integrations.blink",
+            -- make lazydev completions top priority (see `:h blink.cmp`)
+            score_offset = 100,
           }
-          -- Set the menu "icon" to the shorthand for each completion source.
-          item.menu = menu_icon[entry.source.name]
-
-          -- Set 'fixed_width' to false if not provided.
-          -- fixed_width = 60
-          local fixed_width = false
-
-          -- Get the completion entry text shown in the completion window.
-          local content = item.abbr
-
-          -- Set the fixed completion window width.
-          if fixed_width then
-            vim.o.pumwidth = fixed_width
-          end
-
-          -- Get the width of the current window.
-          local win_width = vim.api.nvim_win_get_width(0)
-
-          -- Set the max content width based on either: 'fixed_width'
-          -- or a percentage of the window width, in this case 20%.
-          -- We subtract 10 from 'fixed_width' to leave room for 'kind' fields.
-          local max_content_width = fixed_width and fixed_width - 10 or math.floor(win_width * 0.2)
-
-          -- Truncate the completion entry text if it's longer than the
-          -- max content width. We subtract 3 from the max content width
-          -- to account for the "..." that will be appended to it.
-          if #content > max_content_width then
-            item.abbr = vim.fn.strcharpart(content, 0, max_content_width - 3) .. "..."
-          else
-            item.abbr = content .. (" "):rep(max_content_width - #content)
-          end
-          return item
-        end,
+        }
       },
-      window = {
-        completion = bordered("rounded"),
-        documentation = bordered("rounded"),
-      },
-    })
-  end,
+    },
+  },
 }

@@ -160,3 +160,28 @@ vim.api.nvim_create_autocmd({ "TermOpen" }, {
   pattern = "term://*",
   callback = set_terminal_keymaps,
 })
+
+local function insert_code_block()
+  local in_chunk, _ = require("otter.keeper").get_current_language_context()
+  vim.api.nvim_feedkeys(
+    vim.api.nvim_replace_termcodes("<esc>", true, false, true), "n", true
+  )
+  local keys
+  if in_chunk then
+    keys = "o```<cr><cr>```{python}<esc>o"
+  else
+    keys = "o```{python}<cr>```<esc>O"
+  end
+  keys = vim.api.nvim_replace_termcodes(keys, true, false, true)
+  vim.api.nvim_feedkeys(keys, 'n', false)
+end
+
+-- Quarto/molten
+vim.keymap.set("n", "<leader>js", "<cmd>MoltenInit<cr>", { silent = true, noremap = true, desc = "Start kernel" })
+vim.keymap.set("n", "<leader>je", ":noautocmd MoltenEnterOutput<CR>", { silent = true, desc = 'Show/enter output' })
+vim.keymap.set("n", "<leader>jb", "<cmd>QuartoSendBelow<cr>", { desc = "Run all cell below" })
+vim.keymap.set("n", "<leader>jd", "<cmd>QuartoSendAbove<cr>", { desc = "Run all cell above" })
+vim.keymap.set("n", "<leader>ja", "<cmd>QuartoSendAll<cr>", { desc = "Run all cell" })
+vim.keymap.set("n", "<leader>jc", "<cmd>QuartoSend<cr>", { desc = "Run current cell" })
+vim.keymap.set("n", "<leader>jp", insert_code_block, { desc = "Insert Python code chunk" })
+vim.keymap.set("n", "<leader>jo", require("otter").activate, { desc = "Activate otter" })
