@@ -9,7 +9,8 @@ return {
     -- use a release tag to download pre-built binaries
     -- version = false,
     -- Builiding requires rust nightly
-    build = "cargo build --release",
+    version = "1.*",
+    -- build = "cargo build --release",
     opts = {
       keymap = {
         ["<C-e>"] = { "hide", "fallback" },
@@ -29,15 +30,9 @@ return {
         ["<C-d>"] = { "scroll_documentation_down", "fallback" },
       },
 
-      -- appearence = {
-      -- sets the fallback highlight groups to nvim-cmp's highlight groups
-      -- useful for when your theme doesn't support blink.cmp
-      -- will be removed in a future release, assuming themes add support
-      -- use_nvim_cmp_as_default = true,
-      -- set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
-      -- adjusts spacing to ensure icons are aligned
-      -- nerd_font_variant = "mono",
-      -- },
+      appearence = {
+        nerd_font_variant = "mono",
+      },
 
       completion = {
         list = {
@@ -53,6 +48,10 @@ return {
         accept = {
           auto_brackets = { enabled = true },
         },
+      },
+
+      fuzzy = {
+        implementation = "prefer_rust_with_warning",
       },
 
       -- experimental signature help support
@@ -81,8 +80,8 @@ return {
             module = "lazydev.integrations.blink",
             -- make lazydev completions top priority (see `:h blink.cmp`)
             score_offset = 100,
-          }
-        }
+          },
+        },
       },
     },
   },

@@ -10,6 +10,7 @@ return {
     opts = {
       jump = {
         autojump = true,
+        inclusive = false,
       },
       label = {
         uppercase = false,
@@ -26,14 +27,12 @@ return {
   {
     {
       "3rd/image.nvim",
+      rocks = {
+        herorocks = true,
+      },
       opts = {},
     },
   },
-  -- {
-  --   rocks = {
-  --     hererocks = true, -- recommended if you do not have global installation of Lua 5.1.
-  --   },
-  -- },
   {
     "MeanderingProgrammer/render-markdown.nvim",
     dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
@@ -137,9 +136,9 @@ return {
       auto_preview = false,
     },
     keys = {
-      { "<leader>tq", "<cmd>TodoQuickFix<cr>",        desc = "Open quickfix list with all the TODOs" },
+      { "<leader>tq", "<cmd>TodoQuickFix<cr>", desc = "Open quickfix list with all the TODOs" },
       { "<leader>td", "<cmd>Trouble diagnostics<cr>", desc = "Toggle Trouble for the current file" },
-      { "<leader>tt", "<cmd>Trouble todo<cr>",        desc = "Toggle TODOs for the current file" },
+      { "<leader>tt", "<cmd>Trouble todo<cr>", desc = "Toggle TODOs for the current file" },
     },
   },
   {

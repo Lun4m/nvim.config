@@ -2,13 +2,14 @@ return {
   {
     -- directly open ipynb files as quarto docuements
     -- and convert back behind the scenes
-    'GCBallesteros/jupytext.nvim',
+    "GCBallesteros/jupytext.nvim",
+    -- enabled = false,
     opts = {
       custom_language_formatting = {
         python = {
-          extension = 'qmd',
-          style = 'quarto',
-          force_ft = 'quarto',
+          extension = "qmd",
+          style = "quarto",
+          force_ft = "quarto",
         },
       },
     },
@@ -61,12 +62,18 @@ return {
         vim.g.molten_auto_image_popup = false
       end
 
-      -- vim.g.molten_virt_text_output = true
-      -- vim.g.molten_virt_text_max_lines = 40
+      vim.g.molten_virt_text_output = true
+      vim.g.molten_virt_lines_off_by_1 = true
+      vim.g.molten_virt_text_max_lines = 50
+
+      vim.g.molten_cover_empty_lines = true
+      vim.g.molten_output_win_cover_gutter = false
+
+      -- vim.g.molten_cover_lines_starting_with = { "```" }
       vim.g.molten_wrap_output = false
       vim.g.molten_auto_open_output = false
       vim.g.molten_enter_output_beahvior = "open_and_enter"
-      vim.g.molten_use_border_highlights = true
+      -- vim.g.molten_use_border_highlights = true
     end,
   },
 }

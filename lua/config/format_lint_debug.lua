@@ -21,15 +21,18 @@ local formatters = {
   javascript = { "prettier" },
   lua = { "stylua" },
   python = { "ruff", "ruff_organize_imports", "ruff_format" },
+  quarto = { "injected" },
   sh = { "shfmt", "shellcheck" },
   yaml = { "yamlfmt" },
   -- sql = { "sqlfmt" },
   -- typescript = { "biome" },
-  -- json = { "biome" },
+  json = { "injected" },
   -- jsonc = { "biome" },
   markdown = {
     "mdformat",
+    "injected",
   },
+
   -- bib = { "trim_whitespace", "bibtex-tidy" },
   -- ["_"] = { "trim_whitespace", "trim_newlines", "squeeze_blanks" },
   -- ["*"] = { "codespell" },
@@ -95,7 +98,37 @@ end, {
 })
 
 require("conform").setup({
+  log_level = vim.log.levels.DEBUG,
   formatters_by_ft = formatters,
+  formatters = {
+    injected = {
+      options = {
+        -- Set to true to ignore errors
+        ignore_errors = false,
+        -- Map of treesitter language to file extension
+        -- A temporary file name with this extension will be generated during formatting
+        -- because some formatters care about the filename.
+        lang_to_ext = {
+          bash = "sh",
+          c_sharp = "cs",
+          elixir = "exs",
+          javascript = "js",
+          julia = "jl",
+          latex = "tex",
+          markdown = "md",
+          python = "py",
+          ruby = "rb",
+          rust = "rs",
+          teal = "tl",
+          r = "r",
+          typescript = "ts",
+        },
+        -- Map of treesitter language to formatters to use
+        -- (defaults to the value from formatters_by_ft)
+        lang_to_formatters = {},
+      },
+    },
+  },
   format_on_save = function(_)
     if vim.g.format_is_enabled then
       return { timeout_ms = 500, lsp_fallback = true }
