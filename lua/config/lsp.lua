@@ -160,6 +160,7 @@ vim.lsp.config("lua_ls", {
 })
 
 vim.lsp.config("rust-analyzer", {
+  cmd = { vim.fn.expand("$HOME/.local/bin/rust-analyzer") },
   filetypes = { "rust" },
   on_attach = on_attach,
   capabilities = vim.lsp.protocol.make_client_capabilities(),
@@ -290,10 +291,9 @@ require("mason-lspconfig").setup({
   ensure_installed = servers,
 })
 
+vim.lsp.config("glasgow", {})
+-- postgrestools in mason
+vim.lsp.config("postgres_lsp", {})
+
 vim.lsp.enable(servers)
 -- vim.lsp.enable("crates-nvim")
-
--- TODO: migrate to vim.lsp.config
-require("lspconfig").glasgow.setup({})
--- postgrestools in mason
-require("lspconfig").postgres_lsp.setup({})

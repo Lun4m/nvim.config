@@ -1,17 +1,18 @@
 return {
   {
-    -- directly open ipynb files as quarto docuements
-    -- and convert back behind the scenes
     "GCBallesteros/jupytext.nvim",
     -- enabled = false,
     opts = {
-      custom_language_formatting = {
-        python = {
-          extension = "qmd",
-          style = "quarto",
-          force_ft = "quarto",
-        },
-      },
+      style = "markdown",
+      output_extension = "md",
+      force_ft = "markdown",
+      -- custom_language_formatting = {
+      --   python = {
+      --     style = "markdown",
+      --     extension = "md",
+      --     force_ft = "markdwon",
+      --   },
+      -- },
     },
   },
   {
@@ -21,12 +22,14 @@ return {
       "nvim-treesitter/nvim-treesitter",
       "benlubas/molten-nvim",
     },
+    ft = { "quarto", "markdown" },
     opts = {
       debug = false,
       closePreviewOnExit = true,
       lspFeatures = {
         enabled = true,
-        chunks = "curly",
+        -- chunks = "curly",
+        chunks = "all",
         languages = { "r", "python", "julia", "bash", "html" },
         diagnostics = {
           enabled = true,
@@ -42,10 +45,6 @@ return {
       },
     },
   },
-  -- TODO: otter.nvim
-  -- apparently it's broken if using both pyright and ruff
-  -- https://github.com/jmbuhr/otter.nvim/issues/235
-  -- {},
   {
     "benlubas/molten-nvim",
     version = "^1.0.0", -- use version <2.0.0 to avoid breaking changes

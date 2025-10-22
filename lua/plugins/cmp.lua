@@ -30,10 +30,6 @@ return {
         ["<C-d>"] = { "scroll_documentation_down", "fallback" },
       },
 
-      appearence = {
-        nerd_font_variant = "mono",
-      },
-
       completion = {
         list = {
           selection = { preselect = false, auto_insert = true },
